@@ -11,10 +11,24 @@ config_version=5
 [application]
 
 config/name="The 20 Games Challenge #4: Asteroids"
+config/description="My learning attempt at recreating Asteroids for The 20 Games Challenge."
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[debug]
+
+gdscript/warnings/untyped_declaration=2
+
+[display]
+
+window/size/viewport_width=160
+window/size/viewport_height=144
+window/size/window_width_override=1000
+window/size/window_height_override=900
+window/stretch/mode="canvas_items"
+
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
