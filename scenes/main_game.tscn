@@ -1,13 +1,18 @@
 [gd_scene load_steps=3 format=3 uid="uid://cabllw2t86ivn"]
 
 [ext_resource type="Script" uid="uid://c8jl77bvy47ky" path="res://scripts/main_game.gd" id="1_s3esy"]
-[ext_resource type="Texture2D" uid="uid://bv8oc80gvu75n" path="res://assets/asteroids.png" id="2_72e8q"]
+[ext_resource type="PackedScene" uid="uid://bfhrews0bdark" path="res://scenes/asteroid.tscn" id="2_72e8q"]
 
 [node name="MainGame" type="Node"]
 script = ExtResource("1_s3esy")
 
 [node name="Starfield" type="Node2D" parent="."]
 
-[node name="Asteroids" type="Sprite2D" parent="."]
-position = Vector2(77, 73)
-texture = ExtResource("2_72e8q")
+[node name="Asteroid" parent="Starfield" instance=ExtResource("2_72e8q")]
+position = Vector2(81, 69)
+
+[node name="Asteroid2" parent="Starfield" instance=ExtResource("2_72e8q")]
+position = Vector2(37, 57)
+
+[node name="Asteroid3" parent="Starfield" instance=ExtResource("2_72e8q")]
+position = Vector2(114, 42)
