@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=3 uid="uid://w37dhqwo7r1u"]
+
+[ext_resource type="Script" uid="uid://75nj5c70opd" path="res://scripts/spaceship.gd" id="1_ae4p7"]
+[ext_resource type="Texture2D" uid="uid://chp352g3bdgve" path="res://assets/spaceship.png" id="2_xs8u7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ae4p7"]
+size = Vector2(5, 3)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ae4p7"]
+radius = 24.0
+
+[node name="Spaceship" type="CharacterBody2D"]
+rotation = -1.5708
+collision_mask = 6
+script = ExtResource("1_ae4p7")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = 1.5708
+texture = ExtResource("2_xs8u7")
+
+[node name="ShipCollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, 3.56237e-06)
+shape = SubResource("RectangleShape2D_ae4p7")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+rect = Rect2(-0.5, -0.5, 1, 1)
+
+[node name="TeleportTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="TeleportProbe" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 0
+
+[node name="TeleportCollisionShape2D" type="CollisionShape2D" parent="TeleportProbe"]
+shape = SubResource("CircleShape2D_ae4p7")
+debug_color = Color(0.841149, 0.382426, 1.92523e-07, 0.42)
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
+[connection signal="timeout" from="TeleportTimer" to="." method="_on_teleport_timer_timeout"]

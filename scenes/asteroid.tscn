@@ -1,14 +1,19 @@
-[gd_scene load_steps=3 format=3 uid="uid://bfhrews0bdark"]
+[gd_scene load_steps=2 format=3 uid="uid://bfhrews0bdark"]
 
 [ext_resource type="Script" uid="uid://ci10odmdnnkxu" path="res://scripts/asteroid.gd" id="1_6mo6b"]
-[ext_resource type="Texture2D" uid="uid://bv8oc80gvu75n" path="res://assets/asteroids.png" id="1_akfqu"]
 
-[node name="Asteroid" type="CharacterBody2D"]
+[node name="Asteroid" type="StaticBody2D"]
+collision_layer = 2
+collision_mask = 9
 script = ExtResource("1_6mo6b")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_akfqu")
 hframes = 4
 vframes = 3
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+rect = Rect2(-0.5, -0.5, 1, 1)
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
