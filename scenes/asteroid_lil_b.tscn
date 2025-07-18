@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://u2yjmlb2tm0"]
+
+[ext_resource type="PackedScene" uid="uid://bfhrews0bdark" path="res://scenes/asteroid.tscn" id="1_malgd"]
+[ext_resource type="Texture2D" uid="uid://bv8oc80gvu75n" path="res://assets/asteroids.png" id="2_0a28t"]
+
+[node name="AsteroidLilB" instance=ExtResource("1_malgd")]
+
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("2_0a28t")
+frame = 9
+
+[node name="CollisionPolygon2D" parent="." index="1"]
+polygon = PackedVector2Array(-3, 5, -6, 2, -6, 1, -2, -2, -2, -4, -1, -5, 1, -5, 1, -4, 3, -4, 6, -1, 6, 3, 4, 5)
