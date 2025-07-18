@@ -1,6 +1,7 @@
 extends StaticBody2D
 class_name Asteroid
 
+const EXPLOSION : PackedScene = preload("res://scenes/explosion.tscn")
 
 var size : int = 2
 var speed : float = 2.0
@@ -25,7 +26,11 @@ func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	requested_wrap.emit( self )
 
 func explode() -> void:
-	print("Boom!")
+	var boom : Explosion = EXPLOSION.instantiate()
+	boom.position = position
+	boom.z_index = 100
+	get_parent().add_child( boom )
 	destroyed.emit( size, global_position )
 	await get_tree().process_frame
-	queue_free()
+	if is_inside_tree():
+		queue_free()

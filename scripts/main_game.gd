@@ -70,7 +70,7 @@ func _spawn_smaller_asteroids( size: Size, asteroid_pool: Array[PackedScene], po
 		starfield.register_wrappable( smaller_asteroid )
 		smaller_asteroid.size = size - 1
 		smaller_asteroid.speed = 3 if size == 2 else 6
-		smaller_asteroid.position = position + Vector2( randf_range( -10, 10 ), randf_range( -10, 10 ) )
+		smaller_asteroid.position = position #+ Vector2( randf_range( -10, 10 ), randf_range( -10, 10 ) )
 		smaller_asteroid.destroyed.connect( Callable( self, "_on_asteroid_destroyed" ) )
 
 

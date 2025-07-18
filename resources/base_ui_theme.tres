@@ -1,0 +1,25 @@
+[gd_resource type="Theme" load_steps=4 format=3 uid="uid://464adssc8ko4"]
+
+[ext_resource type="FontFile" uid="uid://4ddbr6nuc0yi" path="res://fonts/Ac437_PhoenixEGA_8x8.ttf" id="1_q3bsw"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q3bsw"]
+bg_color = Color(0.188235, 0.384314, 0.188235, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_phu5m"]
+bg_color = Color(0.0588235, 0.219608, 0.0588235, 1)
+
+[resource]
+resource_name = "BaseUITheme"
+Button/colors/font_color = Color(0.607843, 0.737255, 0.0588235, 1)
+Button/colors/font_hover_color = Color(0.607843, 0.737255, 0.0588235, 1)
+Button/colors/font_outline_color = Color(0.0588235, 0.219608, 0.0588235, 1)
+Button/constants/outline_size = 2
+Button/font_sizes/font_size = 6
+Button/fonts/font = ExtResource("1_q3bsw")
+Button/styles/hover = SubResource("StyleBoxFlat_q3bsw")
+Button/styles/normal = SubResource("StyleBoxFlat_phu5m")
+Label/colors/font_color = Color(0.607843, 0.737255, 0.0588235, 1)
+Label/colors/font_outline_color = Color(0.0588235, 0.219608, 0.0588235, 1)
+Label/constants/outline_size = 2
+Label/font_sizes/font_size = 6
+Label/fonts/font = ExtResource("1_q3bsw")
