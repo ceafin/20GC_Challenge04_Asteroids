@@ -1,11 +1,29 @@
 extends Node
 class_name MainGame
 
+enum Size {
+	LIL, MED, BIG
+}
+
 const BIG_ASTEROID : Array[PackedScene] = [
 	preload("res://scenes/asteroid_big_a.tscn"),
 	preload("res://scenes/asteroid_big_b.tscn"),
 	preload("res://scenes/asteroid_big_c.tscn"),
 	preload("res://scenes/asteroid_big_d.tscn")
+]
+
+const MED_ASTEROID : Array[PackedScene] = [
+	preload("res://scenes/asteroid_med_a.tscn"),
+	preload("res://scenes/asteroid_med_b.tscn"),
+	preload("res://scenes/asteroid_med_c.tscn"),
+	preload("res://scenes/asteroid_med_d.tscn")
+]
+
+const LIL_ASTEROID : Array[PackedScene] = [
+	preload("res://scenes/asteroid_lil_a.tscn"),
+	preload("res://scenes/asteroid_lil_b.tscn"),
+	preload("res://scenes/asteroid_lil_c.tscn"),
+	preload("res://scenes/asteroid_lil_d.tscn")
 ]
 const SPACESHIP : PackedScene = preload("res://scenes/spaceship.tscn")
 const BULLET : PackedScene = preload("res://scenes/bullet.tscn")
@@ -23,7 +41,7 @@ func _ready() -> void:
 
 func _start_new_level() -> void:
 	await get_tree().create_timer(2.0).timeout
-	_spawn_asteroids( current_level + 6 )
+	_spawn_asteroids( current_level + 1 )
 	await get_tree().create_timer(2.0).timeout
 	_spawn_spaceship()
 
@@ -39,6 +57,22 @@ func _spawn_asteroids( count: int ) -> void:
 			randf_range(0, get_viewport().get_visible_rect().size.x),
 			randf_range(0, get_viewport().get_visible_rect().size.y)
 		)
+		new_asteroid.destroyed.connect( Callable( self, "_on_asteroid_destroyed" ) )
+
+func _spawn_smaller_asteroids( size: Size, asteroid_pool: Array[PackedScene], position: Vector2 ) -> void:
+	var smaller_asteroid : Asteroid
+	var count : int = 2 if size == 2 else 3
+	for i: int in count:
+		smaller_asteroid = asteroid_pool[ randi_range( 0, 3 ) ].instantiate()
+		smaller_asteroid.owner = starfield
+		smaller_asteroid.add_to_group( "Asteroids" )
+		starfield.add_child( smaller_asteroid )
+		starfield.register_wrappable( smaller_asteroid )
+		smaller_asteroid.size = size - 1
+		smaller_asteroid.speed = 3 if size == 2 else 6
+		smaller_asteroid.position = position + Vector2( randf_range( -10, 10 ), randf_range( -10, 10 ) )
+		smaller_asteroid.destroyed.connect( Callable( self, "_on_asteroid_destroyed" ) )
+
 
 func _spawn_spaceship( tries : int = 5 ) -> void:
 		
@@ -136,6 +170,18 @@ func _on_spaceship_died() -> void:
 		print( "Lives left: " + str( current_lives ) )
 	else:
 		game_over()
+	
+
+func _on_asteroid_destroyed( size: Size, position: Vector2 ) -> void:
+	if size > 0:
+		match size:
+			Size.BIG:
+				_spawn_smaller_asteroids( size, MED_ASTEROID, position )
+			Size.MED:
+				_spawn_smaller_asteroids( size, LIL_ASTEROID, position )
+			Size.LIL:
+				pass
+	
 	
 
 func game_over() -> void:
