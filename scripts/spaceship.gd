@@ -1,6 +1,8 @@
 extends CharacterBody2D
 class_name Spaceship
 
+const SPAWN_WOBBA : PackedScene = preload("res://scenes/spawn_wobba.tscn")
+
 @export var rotation_speed : float = 5.0 # in radians
 @export var acceleration : float = 500.0
 @export var max_speed : float = 100.0
@@ -96,6 +98,7 @@ func _on_teleport_timer_timeout() -> void:
 
 	if found_safe:
 		position = new_position
+		spawn_a_wobba()
 		visible = true
 		ship_collision_shape_2d.disabled = false
 		set_physics_process( true )
@@ -109,3 +112,7 @@ func _teleport() -> void:
 	ship_collision_shape_2d.disabled = true
 	teleport_timer.start()
 	
+func spawn_a_wobba() -> void:
+	var new_wobba : SpawnWobba = SPAWN_WOBBA.instantiate()
+	self.get_parent().add_child( new_wobba )
+	new_wobba.position = self.position

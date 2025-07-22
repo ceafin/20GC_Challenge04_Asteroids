@@ -27,6 +27,7 @@ const LIL_ASTEROID : Array[PackedScene] = [
 ]
 const SPACESHIP : PackedScene = preload("res://scenes/spaceship.tscn")
 const BULLET : PackedScene = preload("res://scenes/bullet.tscn")
+const SPAWN_WOBBA : PackedScene = preload("res://scenes/spawn_wobba.tscn")
 
 var starfield : Starfield
 var current_level : int = 1
@@ -78,7 +79,10 @@ func _spawn_spaceship( tries : int = 5 ) -> void:
 		
 	# Conjure up a new spaceship
 	var new_spaceship : Spaceship = SPACESHIP.instantiate()
+	var spawn_wobba : SpawnWobba = SPAWN_WOBBA.instantiate()
+	
 	spaceship = new_spaceship
+	
 	new_spaceship.owner = starfield
 	new_spaceship.add_to_group("Spaceship")
 	
@@ -138,6 +142,7 @@ func _spawn_spaceship( tries : int = 5 ) -> void:
 	# Okay, all clear to spawn
 	starfield.add_child(new_spaceship)
 	starfield.register_wrappable(new_spaceship)
+	starfield.add_child(spawn_wobba)
 	
 	# Hook it up
 	new_spaceship.fired_bullet.connect( Callable( self, "_on_spaceship_fired" ) )
@@ -145,6 +150,7 @@ func _spawn_spaceship( tries : int = 5 ) -> void:
 	
 	# Place in location
 	new_spaceship.position = spawn_position
+	spawn_wobba.position = spawn_position
 	
 func _spawn_new_bullet() -> void:
 	var new_bullet : Bullet

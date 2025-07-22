@@ -1,0 +1,61 @@
+[gd_scene load_steps=8 format=3 uid="uid://jivbhgpvi4fa"]
+
+[ext_resource type="Texture2D" uid="uid://badgsonuwklyo" path="res://assets/spawn_wobba.png" id="1_gud8r"]
+[ext_resource type="Script" uid="uid://bqdn1qym58kbd" path="res://scripts/spawn_wobba.gd" id="2_3j1rv"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3j1rv"]
+atlas = ExtResource("1_gud8r")
+region = Rect2(0, 0, 37, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mfu0n"]
+atlas = ExtResource("1_gud8r")
+region = Rect2(37, 0, 37, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_le1j2"]
+atlas = ExtResource("1_gud8r")
+region = Rect2(74, 0, 37, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e36ld"]
+atlas = ExtResource("1_gud8r")
+region = Rect2(111, 0, 37, 37)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5g6pd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3j1rv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mfu0n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_le1j2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e36ld")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3j1rv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mfu0n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_le1j2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e36ld")
+}],
+"loop": false,
+"name": &"default",
+"speed": 20.0
+}]
+
+[node name="SpawnWobba" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_5g6pd")
+autoplay = "default"
+frame = 7
+frame_progress = 1.0
+script = ExtResource("2_3j1rv")
+
+[connection signal="animation_finished" from="." to="." method="_on_animation_finished"]

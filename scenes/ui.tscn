@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://pf3foqr0cuwp"]
+[gd_scene load_steps=5 format=3 uid="uid://pf3foqr0cuwp"]
 
 [ext_resource type="Script" uid="uid://cdf1lgdwf44qw" path="res://scripts/ui.gd" id="1_nt7q6"]
 [ext_resource type="Theme" uid="uid://464adssc8ko4" path="res://resources/base_ui_theme.tres" id="1_x4jx1"]
 [ext_resource type="Texture2D" uid="uid://cjbpkgy2ls11p" path="res://assets/bullet.png" id="3_yev5y"]
+[ext_resource type="Texture2D" uid="uid://c0k8kx1ml8ro0" path="res://assets/ui_message.png" id="4_gdt2y"]
 
 [node name="UI" type="Control"]
 layout_mode = 3
@@ -16,15 +17,53 @@ size_flags_vertical = 3
 theme = ExtResource("1_x4jx1")
 script = ExtResource("1_nt7q6")
 
-[node name="Label" type="Label" parent="."]
-layout_mode = 0
-offset_left = 12.0
-offset_top = 13.0
-offset_right = 72.0
-offset_bottom = 29.0
-text = "Hello World!"
-
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-27, 20)
 scale = Vector2(10, 10)
 texture = ExtResource("3_yev5y")
+
+[node name="TransmissionPanel" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -24.0
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("4_gdt2y")
+
+[node name="TransmissionText" type="Label" parent="TransmissionPanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -42.5
+offset_top = -3.5
+offset_right = 42.5
+offset_bottom = 3.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Incoming Message!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 5.0
+grow_horizontal = 2
+toggle_mode = true
+text = "Message"
+
+[node name="TransmissionBlinker" type="Timer" parent="."]
+wait_time = 0.1
+
+[connection signal="toggled" from="Button" to="." method="_on_button_toggled"]
+[connection signal="timeout" from="TransmissionBlinker" to="." method="_on_transmission_blinker_timeout"]
