@@ -12,7 +12,9 @@ config_version=5
 
 config/name="The 20 Games Challenge #4: Asteroids"
 config/description="My learning attempt at recreating Asteroids for The 20 Games Challenge."
-run/main_scene="uid://cabllw2t86ivn"
+run/main_scene="uid://d37qf8okf0hk"
+run/disable_stdout=true
+run/disable_stderr=true
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
 

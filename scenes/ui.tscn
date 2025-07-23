@@ -50,20 +50,51 @@ text = "Incoming Message!"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button" type="Button" parent="."]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -20.0
-offset_right = 20.0
-offset_bottom = 5.0
-grow_horizontal = 2
-toggle_mode = true
-text = "Message"
-
 [node name="TransmissionBlinker" type="Timer" parent="."]
 wait_time = 0.1
 
-[connection signal="toggled" from="Button" to="." method="_on_button_toggled"]
+[node name="HBoxScore" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 10.0
+offset_right = -10.0
+offset_bottom = 17.0
+grow_horizontal = 2
+
+[node name="ScoreText" type="Label" parent="HBoxScore"]
+layout_mode = 2
+text = "Score: "
+vertical_alignment = 1
+
+[node name="ScoreNumber" type="Label" parent="HBoxScore"]
+layout_mode = 2
+text = "0"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="VSeparator" type="VSeparator" parent="HBoxScore"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="LivesText" type="Label" parent="HBoxScore"]
+layout_mode = 2
+text = "Lives: "
+vertical_alignment = 1
+
+[node name="LivesNumber" type="Label" parent="HBoxScore"]
+layout_mode = 2
+text = "0"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="AsteroidCount" type="Label" parent="."]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 55.0
+offset_right = 104.0
+offset_bottom = 62.0
+
 [connection signal="timeout" from="TransmissionBlinker" to="." method="_on_transmission_blinker_timeout"]

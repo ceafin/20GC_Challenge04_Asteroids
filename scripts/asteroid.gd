@@ -22,7 +22,6 @@ func _physics_process(delta: float) -> void:
 	position += velocity * delta * speed
 
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
-	print("Asteroid said, \"Warp Please!\"")
 	requested_wrap.emit( self )
 
 func explode() -> void:

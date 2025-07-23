@@ -1,0 +1,62 @@
+[gd_scene load_steps=5 format=3 uid="uid://d37qf8okf0hk"]
+
+[ext_resource type="Script" uid="uid://bfrmfyc12wgai" path="res://scripts/splash.gd" id="1_5svwm"]
+[ext_resource type="Material" uid="uid://dq78ubyfxsx2r" path="res://resources/crt_ui.tres" id="1_10vqf"]
+[ext_resource type="Texture2D" uid="uid://dc43ddstddosv" path="res://assets/splash.png" id="2_4rrho"]
+[ext_resource type="Theme" uid="uid://464adssc8ko4" path="res://resources/base_ui_theme.tres" id="2_5svwm"]
+
+[node name="Splash" type="Node2D"]
+script = ExtResource("1_5svwm")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_4rrho")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer"]
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -37.0
+offset_bottom = 3.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -0.0872665
+theme = ExtResource("2_5svwm")
+bbcode_enabled = true
+text = "[wave]ASTEROIDS!"
+scroll_active = false
+autowrap_mode = 0
+tab_size = 0
+shortcut_keys_enabled = false
+horizontal_alignment = 1
+vertical_alignment = 1
+drag_and_drop_selection_enabled = false
+
+[node name="SpaceToStart" type="Label" parent="CanvasLayer"]
+offset_left = 19.0
+offset_top = 92.0
+offset_right = 147.0
+offset_bottom = 109.0
+rotation = 0.0872665
+theme = ExtResource("2_5svwm")
+theme_override_colors/font_outline_color = Color(0.0588235, 0.219608, 0.0588235, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 9
+text = "Spacebar to Start"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CRTLayer" type="ColorRect" parent="CanvasLayer"]
+material = ExtResource("1_10vqf")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

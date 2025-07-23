@@ -30,14 +30,32 @@ const BULLET : PackedScene = preload("res://scenes/bullet.tscn")
 const SPAWN_WOBBA : PackedScene = preload("res://scenes/spawn_wobba.tscn")
 
 var starfield : Starfield
-var current_level : int = 1
-var current_lives : int = 3
 var spaceship : Spaceship
+var current_level : int = 1
+
+var current_lives : int = 3:
+	set( value ):
+		_current_lives = value
+		ui.update_lives( value )
+	get:
+		return _current_lives
+var _current_lives: int = 3
+
+var player_score: int = 0:
+	set( value ):
+		_player_score = value
+		ui.update_score( value )
+	get:
+		return _player_score
+var _player_score: int = 0  # internal backing variable
+
+
+@onready var ui: GameUI = $GameOverlay/UI
 
 func _ready() -> void:
 	starfield = find_child("Starfield")
 	starfield.level_finished.connect( Callable( self, "_start_new_level" ) )
-	
+	current_lives = 3
 	_start_new_level()
 
 func _start_new_level() -> void:
@@ -47,6 +65,8 @@ func _start_new_level() -> void:
 	_spawn_spaceship()
 
 func _spawn_asteroids( count: int ) -> void:
+	ui.display_message( "Asteroids Inbound!", 1.5 )
+	await get_tree().create_timer(2.0).timeout
 	var new_asteroid : Asteroid
 	for i: int in count:
 		new_asteroid = BIG_ASTEROID[ randi_range( 0, 3 ) ].instantiate()
@@ -76,7 +96,9 @@ func _spawn_smaller_asteroids( size: Size, asteroid_pool: Array[PackedScene], po
 
 
 func _spawn_spaceship( tries : int = 5 ) -> void:
-		
+	ui.display_message( "Warping In; Good Luck!", 1.5 )
+	await get_tree().create_timer(2.0).timeout
+	
 	# Conjure up a new spaceship
 	var new_spaceship : Spaceship = SPACESHIP.instantiate()
 	var spawn_wobba : SpawnWobba = SPAWN_WOBBA.instantiate()
@@ -108,13 +130,12 @@ func _spawn_spaceship( tries : int = 5 ) -> void:
 		if result.is_empty():
 			found_safe = true
 		else:
-			print("Center spawn blocked! Tries left: ", tries)
-			await get_tree().create_timer(0.3).timeout
+			ui.display_message( "Warp Destination Block! Trying again...", 2.0 )
+			await get_tree().create_timer(4.0).timeout
 			_spawn_spaceship( tries - 1 )
 			return
 	else:
 		# Fallback to teleport-style random spawn
-		print("⚠️ Falling back to random spawn after center retry fail!")
 		var max_attempts : int = 10
 		while max_attempts > 0 and not found_safe:
 			spawn_position = Vector2(
@@ -136,7 +157,7 @@ func _spawn_spaceship( tries : int = 5 ) -> void:
 				max_attempts -= 1
 
 		if not found_safe:
-			print("❌ Could not find a safe spawn location!")
+			print("No safe spawn location!")
 			return 
 	
 	# Okay, all clear to spawn
@@ -179,16 +200,31 @@ func _on_spaceship_died() -> void:
 	
 
 func _on_asteroid_destroyed( size: Size, position: Vector2 ) -> void:
-	if size > 0:
-		match size:
-			Size.BIG:
-				_spawn_smaller_asteroids( size, MED_ASTEROID, position )
-			Size.MED:
-				_spawn_smaller_asteroids( size, LIL_ASTEROID, position )
-			Size.LIL:
-				pass
 	
+	match size:
+		Size.BIG:
+			player_score += 100
+			_spawn_smaller_asteroids( size, MED_ASTEROID, position )
+		Size.MED:
+			player_score += 200
+			_spawn_smaller_asteroids( size, LIL_ASTEROID, position )
+		Size.LIL:
+			player_score += 400
+	
+	check_for_new_wave()
 	
 
+func check_for_new_wave() -> void:
+	await get_tree().process_frame
+	var asteroid_count : int = get_tree().get_nodes_in_group( "Asteroids" ).size()
+	if asteroid_count <= 1:
+		current_level += 1
+		spaceship.leave_level()
+		ui.display_message( "Wave Cleared!", 1.0 )
+		await get_tree().create_timer(2.0).timeout
+		_start_new_level()
+
 func game_over() -> void:
+	ui.display_message( "Game Over!", 4.0 )
+	await get_tree().create_timer(8.0).timeout
 	get_tree().quit()

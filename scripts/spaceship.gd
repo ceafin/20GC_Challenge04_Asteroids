@@ -1,6 +1,7 @@
 extends CharacterBody2D
 class_name Spaceship
 
+const EXPLOSION : PackedScene = preload("res://scenes/explosion.tscn")
 const SPAWN_WOBBA : PackedScene = preload("res://scenes/spawn_wobba.tscn")
 
 @export var rotation_speed : float = 5.0 # in radians
@@ -55,12 +56,12 @@ func _physics_process( delta: float ) -> void:
 			set_physics_process( false )
 			print( "💥!" )
 			spaceship_died.emit()
+			explode()
 			queue_free()
 	
 
 
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
-	print("Spaceship said, \"Warp Please!\"")
 	requested_wrap.emit( self )
 
 
@@ -116,3 +117,21 @@ func spawn_a_wobba() -> void:
 	var new_wobba : SpawnWobba = SPAWN_WOBBA.instantiate()
 	self.get_parent().add_child( new_wobba )
 	new_wobba.position = self.position
+
+func explode() -> void:
+	var boom : Explosion = EXPLOSION.instantiate()
+	boom.position = position
+	boom.z_index = 100
+	get_parent().add_child( boom )
+	await get_tree().process_frame
+	if is_inside_tree():
+		queue_free()
+
+func leave_level() -> void:
+	velocity = Vector2.ZERO
+	spawn_a_wobba()
+	ship_collision_shape_2d.disabled = true
+	visible = false
+	await get_tree().process_frame
+	if is_inside_tree():
+		queue_free()
